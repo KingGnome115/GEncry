@@ -1,21 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
+
+import clases.Metodos;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Kevin
  */
-public class Principal extends javax.swing.JFrame
+public class Encriptar extends javax.swing.JFrame
 {
+
+    String textOr = "";
+    int tipoEn = 0;
+    int des = 0;
+    boolean bdes = false;
 
     /**
      * Creates new form Principal
      */
-    public Principal()
+    public Encriptar()
     {
         initComponents();
     }
@@ -34,11 +37,12 @@ public class Principal extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         TextEnc = new javax.swing.JTextArea();
         TipoEncriptado = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnEnc = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         TextOriginal = new javax.swing.JTextArea();
         Clave = new javax.swing.JLabel();
         Llave = new javax.swing.JLabel();
+        btnDesEncriptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,6 +54,13 @@ public class Principal extends javax.swing.JFrame
         jScrollPane1.setViewportView(TextEnc);
 
         TipoEncriptado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ROT13", "Cesar", "Vigeneré" }));
+        TipoEncriptado.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                TipoEncriptadoItemStateChanged(evt);
+            }
+        });
         TipoEncriptado.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -58,28 +69,48 @@ public class Principal extends javax.swing.JFrame
             }
         });
 
-        jButton1.setText("Aceptar");
+        btnEnc.setText("Encriptar");
+        btnEnc.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnEncActionPerformed(evt);
+            }
+        });
 
         TextOriginal.setColumns(20);
         TextOriginal.setLineWrap(true);
         TextOriginal.setRows(5);
         jScrollPane2.setViewportView(TextOriginal);
 
+        btnDesEncriptar.setText("DesEncriptar");
+        btnDesEncriptar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnDesEncriptarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(333, 333, 333)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TipoEncriptado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(333, 333, 333)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TipoEncriptado, 0, 150, Short.MAX_VALUE)
+                            .addComponent(Clave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Llave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 38, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(39, 39, 39))
-                    .addComponent(Clave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Llave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEnc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDesEncriptar, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,7 +122,7 @@ public class Principal extends javax.swing.JFrame
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -100,12 +131,15 @@ public class Principal extends javax.swing.JFrame
                         .addComponent(Clave, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(Llave, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(223, 223, 223)
-                        .addComponent(jButton1)))
+                        .addGap(123, 123, 123)
+                        .addComponent(btnEnc)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDesEncriptar)
+                        .addGap(57, 57, 57)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(39, Short.MAX_VALUE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -118,7 +152,7 @@ public class Principal extends javax.swing.JFrame
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -129,6 +163,51 @@ public class Principal extends javax.swing.JFrame
     {//GEN-HEADEREND:event_TipoEncriptadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TipoEncriptadoActionPerformed
+
+    private void TipoEncriptadoItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_TipoEncriptadoItemStateChanged
+    {//GEN-HEADEREND:event_TipoEncriptadoItemStateChanged
+        this.tipoEn = TipoEncriptado.getSelectedIndex();
+        if(this.tipoEn == 1 && !bdes)
+        {
+            String obj =  JOptionPane.showInputDialog("De cuanto sera el desplazamiento");
+            des = Integer.parseInt(obj);
+            bdes = true;
+        }else{
+            bdes = false;
+        }
+        
+    }//GEN-LAST:event_TipoEncriptadoItemStateChanged
+
+    private void btnEncActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnEncActionPerformed
+    {//GEN-HEADEREND:event_btnEncActionPerformed
+        textOr = TextOriginal.getText();
+        switch (this.tipoEn)
+        {
+            case 0:
+                TextEnc.setText(Metodos.ROT13(textOr));
+                break;
+            case 1:
+                TextEnc.setText(Metodos.Cesar(textOr, des));
+                break;
+        }
+
+    }//GEN-LAST:event_btnEncActionPerformed
+
+    private void btnDesEncriptarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnDesEncriptarActionPerformed
+    {//GEN-HEADEREND:event_btnDesEncriptarActionPerformed
+        
+        textOr = TextOriginal.getText();
+        switch (this.tipoEn)
+        {
+            case 0:
+                TextEnc.setText(Metodos.ROT13(textOr));
+                break;
+            case 1:
+                TextEnc.setText(Metodos.Cesar(textOr, -des));
+                break;
+        }
+        
+    }//GEN-LAST:event_btnDesEncriptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,17 +231,18 @@ public class Principal extends javax.swing.JFrame
             }
         } catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Encriptar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Encriptar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Encriptar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Encriptar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -170,7 +250,7 @@ public class Principal extends javax.swing.JFrame
         {
             public void run()
             {
-                new Principal().setVisible(true);
+                new Encriptar().setVisible(true);
             }
         });
     }
@@ -181,7 +261,8 @@ public class Principal extends javax.swing.JFrame
     private javax.swing.JTextArea TextEnc;
     private javax.swing.JTextArea TextOriginal;
     private javax.swing.JComboBox<String> TipoEncriptado;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnDesEncriptar;
+    private javax.swing.JButton btnEnc;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
