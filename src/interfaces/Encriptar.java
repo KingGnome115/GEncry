@@ -176,7 +176,6 @@ public class Encriptar extends javax.swing.JFrame
 
     private void TipoEncriptadoItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_TipoEncriptadoItemStateChanged
     {//GEN-HEADEREND:event_TipoEncriptadoItemStateChanged
-        
         if(evt.getStateChange() == ItemEvent.SELECTED)
         {
             this.tipoEn = TipoEncriptado.getSelectedIndex();
@@ -205,6 +204,9 @@ public class Encriptar extends javax.swing.JFrame
             case 1:
                 TextEnc.setText(Metodos.Cesar(textOr, des));
                 break;
+            case 2:
+                JOptionPane.showMessageDialog(this, "Encriptado en desarrollo");
+                break;
         }
 
     }//GEN-LAST:event_btnEncActionPerformed
@@ -220,6 +222,9 @@ public class Encriptar extends javax.swing.JFrame
                 break;
             case 1:
                 TextEnc.setText(Metodos.Cesar(textOr, -des));
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(this, "Encriptado en desarrollo");
                 break;
         }
         
