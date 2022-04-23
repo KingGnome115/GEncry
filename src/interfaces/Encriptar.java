@@ -1,6 +1,7 @@
 package interfaces;
 
 import clases.Metodos;
+import java.awt.event.ItemEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,6 +44,7 @@ public class Encriptar extends javax.swing.JFrame
         Clave = new javax.swing.JLabel();
         Llave = new javax.swing.JLabel();
         btnDesEncriptar = new javax.swing.JButton();
+        btnInvertir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,13 +63,6 @@ public class Encriptar extends javax.swing.JFrame
                 TipoEncriptadoItemStateChanged(evt);
             }
         });
-        TipoEncriptado.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                TipoEncriptadoActionPerformed(evt);
-            }
-        });
 
         btnEnc.setText("Encriptar");
         btnEnc.addActionListener(new java.awt.event.ActionListener()
@@ -83,12 +78,25 @@ public class Encriptar extends javax.swing.JFrame
         TextOriginal.setRows(5);
         jScrollPane2.setViewportView(TextOriginal);
 
+        Clave.setText("                        ");
+
+        Llave.setText("                           ");
+
         btnDesEncriptar.setText("DesEncriptar");
         btnDesEncriptar.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 btnDesEncriptarActionPerformed(evt);
+            }
+        });
+
+        btnInvertir.setText("<--");
+        btnInvertir.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnInvertirActionPerformed(evt);
             }
         });
 
@@ -107,10 +115,15 @@ public class Encriptar extends javax.swing.JFrame
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnEnc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDesEncriptar, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
-                        .addGap(29, 29, 29)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnEnc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnDesEncriptar, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnInvertir, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(56, 56, 56)))))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +144,9 @@ public class Encriptar extends javax.swing.JFrame
                         .addComponent(Clave, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(Llave, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(123, 123, 123)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnInvertir)
+                        .addGap(72, 72, 72)
                         .addComponent(btnEnc)
                         .addGap(18, 18, 18)
                         .addComponent(btnDesEncriptar)
@@ -159,23 +174,24 @@ public class Encriptar extends javax.swing.JFrame
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TipoEncriptadoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TipoEncriptadoActionPerformed
-    {//GEN-HEADEREND:event_TipoEncriptadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TipoEncriptadoActionPerformed
-
     private void TipoEncriptadoItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_TipoEncriptadoItemStateChanged
     {//GEN-HEADEREND:event_TipoEncriptadoItemStateChanged
-        this.tipoEn = TipoEncriptado.getSelectedIndex();
-        if(this.tipoEn == 1 && !bdes)
-        {
-            String obj =  JOptionPane.showInputDialog("De cuanto sera el desplazamiento");
-            des = Integer.parseInt(obj);
-            bdes = true;
-        }else{
-            bdes = false;
-        }
         
+        if(evt.getStateChange() == ItemEvent.SELECTED)
+        {
+            this.tipoEn = TipoEncriptado.getSelectedIndex();
+            if (this.tipoEn == 1 && !bdes)
+            {
+                String obj = JOptionPane.showInputDialog("De cuanto sera el desplazamiento");
+                des = Integer.parseInt(obj);
+                Clave.setText("Desplazamiento: " + des + "");
+                bdes = true;
+            } else
+            {
+                Clave.setText("");
+                bdes = false;
+            }
+        }
     }//GEN-LAST:event_TipoEncriptadoItemStateChanged
 
     private void btnEncActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnEncActionPerformed
@@ -208,6 +224,12 @@ public class Encriptar extends javax.swing.JFrame
         }
         
     }//GEN-LAST:event_btnDesEncriptarActionPerformed
+
+    private void btnInvertirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnInvertirActionPerformed
+    {//GEN-HEADEREND:event_btnInvertirActionPerformed
+        TextOriginal.setText(TextEnc.getText());
+        TextEnc.setText("");
+    }//GEN-LAST:event_btnInvertirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,6 +285,7 @@ public class Encriptar extends javax.swing.JFrame
     private javax.swing.JComboBox<String> TipoEncriptado;
     private javax.swing.JButton btnDesEncriptar;
     private javax.swing.JButton btnEnc;
+    private javax.swing.JButton btnInvertir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

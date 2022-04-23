@@ -74,7 +74,6 @@ public class Metodos
                 s += texto.charAt(i);
             } else
             {
-                
                 if(texto.charAt(i) == 'Ñ')
                 {
                     s += ABC[buscar(texto.charAt(i), ABC, des)];
@@ -108,7 +107,6 @@ public class Metodos
         {
             if (c == abc[i])
             {
-                System.out.println(abs((i + des) % abc.length));
                 return abs((i + des) % abc.length);
             }
         }
