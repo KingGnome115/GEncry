@@ -53,12 +53,18 @@ public class Metodos
     public static String Cesar(String texto, int des)
     {
         String s = "";
-        texto = texto.toUpperCase();
-        char abc[] =
+        char ABC[] =
         {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
             'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P',
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'X', 'Z'
+        };
+
+        char abc[] =
+        {
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+            'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p',
+            'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'x', 'z'
         };
 
         for (int i = 0; i < texto.length(); i++)
@@ -68,8 +74,28 @@ public class Metodos
                 s += texto.charAt(i);
             } else
             {
-                System.out.println(buscar(texto.charAt(i), abc, des));
-                s += abc[buscar(texto.charAt(i), abc, des)];
+                
+                if(texto.charAt(i) == 'Ñ')
+                {
+                    s += ABC[buscar(texto.charAt(i), ABC, des)];
+                }else{
+                    if (texto.charAt(i) == 'ñ')
+                    {
+                        s += abc[buscar(texto.charAt(i), abc, des)];
+                    }else{
+                        byte[] bytes = (texto.charAt(i) + "").getBytes(StandardCharsets.US_ASCII);
+
+                        if ((bytes[0] >= 65 && bytes[0] <= 90))
+                        {
+                            s += ABC[buscar(texto.charAt(i), ABC, des)];
+                        }
+
+                        if ((bytes[0] >= 97 && bytes[0] <= 122))
+                        {
+                            s += abc[buscar(texto.charAt(i), abc, des)];
+                        }
+                    }
+                }
             }
         }
         return s;
@@ -82,10 +108,16 @@ public class Metodos
         {
             if (c == abc[i])
             {
-                return (i + des) % abc.length;
+                System.out.println(abs((i + des) % abc.length));
+                return abs((i + des) % abc.length);
             }
         }
         return pos;
+    }
+
+    public static int abs(int n)
+    {
+        return n > 0 ? n : -n;
     }
 
     /*public static void main(String[] args)
